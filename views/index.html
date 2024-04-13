@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello!</title>
+</head>
+<body>
+    <h1 >Hello MY GOOD FRIEND!!</h1>
+    <ul id="people-list">
+        {{range .People}}
+        <li>{{.Name}}</li>
+        {{end}}
+    </ul>
+    <ul id="voices-list">
+        {{range .Voices}}
+        <li>{{.Name}}</li>
+        {{end}}
+    </ul>
+    <form hx-get="/get-voices" hx-target="#voices-list">
+        <h3>Get Voices</h3>
+        <button type="submit">Submit</button>
+    </form>
+    <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+</body>
+</html>
