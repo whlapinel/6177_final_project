@@ -1,8 +1,11 @@
 package api_server
 
 import (
+	"encoding/json"
+	"final_project/models"
+	"final_project/secrets"
 	"fmt"
-	"os"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,25 +15,44 @@ func Hello() {
 }
 
 func Run() {
-	SPEECH_KEY := os.Getenv("SPEECH_KEY")
-	if SPEECH_KEY == "" {
-		panic("SPEECH_KEY is not set")
-	}
-	fmt.Println("SPEECH_KEY is set, value is", SPEECH_KEY)
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/api/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
-	r.GET("/get-voices", getVoices)
+	r.GET("/api/get-voices", getVoices)
 	r.Run(":8081") // listen and serve on
 }
 
 func getVoices(c *gin.Context) {
-	// make call to endpoint instead of returning hardcoded values
 
-	c.JSON(200, gin.H{
-		"voices": []string{"en-US-AriaNeural", "en-US-GuyNeural", "en-US-JennyNeural", "en-US-ZiraNeural"},
-	})
+	url := "https://eastus.tts.speech.microsoft.com/cognitiveservices/voices/list"
+	method := "GET"
+
+	// payload := strings.NewReader(``)
+
+	client := &http.Client{}
+	req, err := http.NewRequest(method, url, nil)
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	req.Header.Set("Ocp-Apim-Subscription-Key", secrets.GetSpeechKey())
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	var voices []models.Voice
+	if err := json.NewDecoder(resp.Body).Decode(&voices); err != nil {
+		c.JSON(500, gin.H{
+			"error": "error decoding response",
+		})
+		return
+	}
+	c.JSON(200, voices)
 }

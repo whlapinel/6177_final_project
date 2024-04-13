@@ -13,8 +13,8 @@ func Hello() {
 
 func Run() {
 	r := mux.NewRouter()
-	r.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+	r.HandleFunc("/docs", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("here are some docs!"))
 	})
 	http.ListenAndServe(":8080", r)
 }
