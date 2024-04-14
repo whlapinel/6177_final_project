@@ -1,0 +1,12 @@
+package views
+
+import (
+    "final_project/models"
+    "final_project/views/components"
+)
+
+templ Voices(voices *[]models.Voice) {
+@components.Layout() {
+    @components.VoiceList(voices)
+}
+}

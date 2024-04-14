@@ -1,0 +1,12 @@
+package components
+
+import ("final_project/models")
+
+templ VoiceList(voices *[]models.Voice) {
+  <h1>Voices</h1>
+  <ul>
+    for _, voice := range *voices {
+        <li>{ voice.ShortName }</li>
+    }
+  </ul>
+}

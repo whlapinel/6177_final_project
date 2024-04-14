@@ -3,6 +3,8 @@ package web_server
 import (
 	"encoding/json"
 	"final_project/models"
+	"final_project/views"
+	"final_project/views/components"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -33,30 +35,26 @@ func Run() {
 	})
 
 	r.HandleFunc("/add-person", h2)
-	r.HandleFunc("/get-voices", showVoices)
+	r.HandleFunc("/get-voices", showVoices2)
+	r.HandleFunc("/templ-test", renderTempl)
 	http.ListenAndServe(":8080", r)
 }
 
+func renderTempl(w http.ResponseWriter, r *http.Request) {
+	component := components.Layout()
+	component.Render(r.Context(), w)
+}
+
+func showVoices2(w http.ResponseWriter, r *http.Request) {
+	voices := getVoices()
+	component := views.Voices(voices)
+	component.Render(r.Context(), w)
+}
+
 func showVoices(w http.ResponseWriter, r *http.Request) {
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", "http://localhost:8081/api/get-voices", nil)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	res, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer res.Body.Close()
-	fmt.Println(res)
-	var voices []models.Voice
-	if err := json.NewDecoder(res.Body).Decode(&voices); err != nil {
-		return
-	}
+	voices := getVoices()
 	var htmlStr string
-	for _, voice := range voices {
+	for _, voice := range *voices {
 		htmlStr += fmt.Sprintf("<li>%s</li>", voice.ShortName)
 		fmt.Println(voice.Name)
 	}
@@ -72,4 +70,25 @@ func h2(w http.ResponseWriter, r *http.Request) {
 	htmlStr := fmt.Sprintf("<li>%s</li>", name)
 	tmpl, _ := template.New("foo").Parse(htmlStr)
 	tmpl.Execute(w, nil)
+}
+
+func getVoices() *[]models.Voice {
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "http://localhost:8081/api/get-voices", nil)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+	defer res.Body.Close()
+	fmt.Println(res)
+	var voices []models.Voice
+	if err := json.NewDecoder(res.Body).Decode(&voices); err != nil {
+		return nil
+	}
+	return &voices
 }
