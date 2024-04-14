@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"final_project/models"
 	"final_project/views"
-	"final_project/views/components"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -35,31 +34,14 @@ func Run() {
 	})
 
 	r.HandleFunc("/add-person", h2)
-	r.HandleFunc("/get-voices", showVoices2)
-	r.HandleFunc("/templ-test", renderTempl)
+	r.HandleFunc("/get-voices", showVoices)
 	http.ListenAndServe(":8080", r)
-}
-
-func renderTempl(w http.ResponseWriter, r *http.Request) {
-	component := components.Layout()
-	component.Render(r.Context(), w)
-}
-
-func showVoices2(w http.ResponseWriter, r *http.Request) {
-	voices := getVoices()
-	component := views.Voices(voices)
-	component.Render(r.Context(), w)
 }
 
 func showVoices(w http.ResponseWriter, r *http.Request) {
 	voices := getVoices()
-	var htmlStr string
-	for _, voice := range *voices {
-		htmlStr += fmt.Sprintf("<li>%s</li>", voice.ShortName)
-		fmt.Println(voice.Name)
-	}
-	tmpl, _ := template.New("foo").Parse(htmlStr)
-	tmpl.Execute(w, nil)
+	component := views.Voices(voices)
+	component.Render(r.Context(), w)
 }
 
 func h2(w http.ResponseWriter, r *http.Request) {
