@@ -21,6 +21,11 @@ type Person struct {
 
 func Run() {
 	r := mux.NewRouter()
+	staticFileDirectory := http.Dir("./static/")
+	fmt.Println("staticFileDirectory: ", staticFileDirectory)
+	staticFileHandler := http.StripPrefix("/static/", http.FileServer(staticFileDirectory))
+	fmt.Println("staticFileHandler: ", staticFileHandler)
+	r.PathPrefix("/static/").Handler(staticFileHandler)
 	r.HandleFunc("/docs", func(w http.ResponseWriter, r *http.Request) {
 		people := map[string][]Person{
 			"People": {

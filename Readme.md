@@ -6,6 +6,8 @@ https://eastus.api.cognitive.microsoft.com/
 API Key set in .bashrc
 ## 4/14/24:
 
+- installed Tailwind and set up configuration, seems to be working!
+
 - spent a lot of time troubleshooting with Air and then Templ. About 3 hours total. But after slogging through that I set up my templates nicely, switched over and very happy so far with everything.  It's like playing with React but faster and simpler and more intuitive.
 
 ## 4/13/24:
