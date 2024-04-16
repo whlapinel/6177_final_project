@@ -17,11 +17,12 @@ func getUrl (page int) string {
 }
 
 templ VoicesPage(voices *[]models.Voice, page int) {
-@components.Layout() {
-    @components.VoiceList(voices, itemsPerPage, page)
-}
-// get length of voices
-for i := 0; i < getPageCount(len(*voices)); i++ {
-    <a href={templ.SafeURL(getUrl(i+1))} class="flex gap-2">{strconv.Itoa(i+1)}</a>
-}
+    @components.Layout() {
+        @components.VoiceList(voices, itemsPerPage, page)
+        <div class="flex gap-2">
+            for i := 0; i < getPageCount(len(*voices)); i++ {
+                <a href={templ.SafeURL(getUrl(i+1))}>{strconv.Itoa(i+1)}</a>
+            }
+        </div>
+    }
 }
