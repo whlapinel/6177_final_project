@@ -5,8 +5,8 @@ import (
 	"final_project/models"
 	"final_project/views"
 	"fmt"
-	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -26,37 +26,20 @@ func Run() {
 	staticFileHandler := http.StripPrefix("/static/", http.FileServer(staticFileDirectory))
 	fmt.Println("staticFileHandler: ", staticFileHandler)
 	r.PathPrefix("/static/").Handler(staticFileHandler)
-	r.HandleFunc("/docs", func(w http.ResponseWriter, r *http.Request) {
-		people := map[string][]Person{
-			"People": {
-				{Name: "Alice"},
-				{Name: "Bob"},
-				{Name: "Charlie"},
-			},
-		}
-		tmpl := template.Must(template.ParseFiles("views/index.html"))
-		tmpl.Execute(w, people)
-	})
 
-	r.HandleFunc("/add-person", h2)
-	r.HandleFunc("/get-voices", showVoices)
+	r.HandleFunc("/get-voices/{page}", showVoices)
 	http.ListenAndServe(":8080", r)
 }
 
 func showVoices(w http.ResponseWriter, r *http.Request) {
 	voices := getVoices()
-	component := views.Voices(voices)
+	vars := mux.Vars(r)
+	page, err := strconv.Atoi(vars["page"])
+	if err != nil {
+		page = 0
+	}
+	component := views.VoicesPage(voices, page)
 	component.Render(r.Context(), w)
-}
-
-func h2(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("hello from h2")
-	fmt.Println(r.Header.Get("HX-Request"))
-	name := r.FormValue("name")
-	fmt.Println("name: ", name)
-	htmlStr := fmt.Sprintf("<li>%s</li>", name)
-	tmpl, _ := template.New("foo").Parse(htmlStr)
-	tmpl.Execute(w, nil)
 }
 
 func getVoices() *[]models.Voice {

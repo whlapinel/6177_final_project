@@ -3,10 +3,25 @@ package views
 import (
     "final_project/models"
     "final_project/views/components"
+	"strconv"
 )
 
-templ Voices(voices *[]models.Voice) {
+
+const itemsPerPage = 20
+func getPageCount(items int) int {
+    return items / itemsPerPage
+}
+
+func getUrl (page int) string {
+    return "/get-voices/" + strconv.Itoa(page)
+}
+
+templ VoicesPage(voices *[]models.Voice, page int) {
 @components.Layout() {
-    @components.VoiceList(voices)
+    @components.VoiceList(voices, itemsPerPage, page)
+}
+// get length of voices
+for i := 0; i < getPageCount(len(*voices)); i++ {
+    <a href={templ.SafeURL(getUrl(i+1))} class="flex gap-2">{strconv.Itoa(i+1)}</a>
 }
 }
