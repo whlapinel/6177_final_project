@@ -1,0 +1,30 @@
+package views
+
+import (
+    "final_project/views/components"
+    "final_project/models"
+)
+
+templ HomePage(voices *[]models.Voice) {
+    @components.Layout() {
+        @components.PageHeading("Lapinel's Text-to-Speech API")
+        <p>Welcome!</p>
+        <p>You can use this API to generate text-to-speech audio files</p>
+        <p>Note for Professor / TA: You should have access to the API Key provided in the assignment submission.</p>
+        <form hx-get="/get-audio" hx-target="#audio-element" class="flex flex-col justify-center items-center gap-2">
+            <div class="grid grid-cols-2 gap-2">
+                <label for="text">Enter the text you want to convert to speech:</label>
+                <input type="text" id="text" name="text" value="hello my friend!"/>
+                <label for="voice">Select a voice:</label>
+                <select id="voice" name="voice">
+                    for _, voice := range *voices {
+                        <option value={voice.ShortName}>{voice.DisplayName}</option>
+                    }
+                </select>
+            </div>
+            <div id="audio-element">
+            </div>
+            <button type="submit" class="bg-sky-500 text-white p-4 rounded">Try it out!</button>
+        </form>
+    }
+}

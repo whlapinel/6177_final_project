@@ -1,0 +1,12 @@
+package views
+
+import "final_project/views/components"
+
+templ AboutPage() {
+    @components.Layout() {
+        @components.PageHeading("About")
+        <div>
+            <p>This is a simple web app written in Go.</p>
+        </div>
+    }
+}

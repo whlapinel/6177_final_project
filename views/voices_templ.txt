@@ -1,5 +1,6 @@
+ 
  <div class=\"flex gap-2\">
-<a href=\"
-\">
-</a>
+<button hx-get=\"
+\" hx-target=\"#voice-list\" hx-swap=\"outerHTML\">
+</button>
 </div>

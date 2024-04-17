@@ -26,8 +26,19 @@ func Run() {
 	})
 	r.GET("/api/get-voices", getVoices)
 	r.GET("/api/tts", tts)
+	r.Use(authorizationMiddleware)
 
 	r.Run(":8081") // listen and serve on
+}
+
+func authorizationMiddleware(c *gin.Context) {
+	if c.GetHeader("Authorization") != secrets.GetApiToken() {
+		c.JSON(401, gin.H{
+			"error": "unauthorized",
+		})
+		c.Abort()
+	}
+	c.Next()
 }
 
 func GetSpeechToken() (*string, error) {

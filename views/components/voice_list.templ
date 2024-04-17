@@ -5,9 +5,8 @@ import "strconv"
 import ("final_project/models")
 
 templ VoiceList(voices *[]models.Voice, itemsPerPage int, page int) {
-  <h1>Voices</h1>
   // display only the first 10 voices times the page number
-  <ul>
+  <ul id="voice-list">
     for i := 0+(itemsPerPage*(page-1)); i < itemsPerPage+(itemsPerPage*(page-1)); i++ {
         <li>{strconv.Itoa(i)}{" "}{ (*voices)[i].ShortName }</li>
     }

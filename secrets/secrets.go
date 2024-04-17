@@ -11,3 +11,11 @@ func GetSpeechKey() string {
 	}
 	return SPEECH_KEY
 }
+
+func GetApiToken() string {
+	API_TOKEN := os.Getenv("API_TOKEN")
+	if API_TOKEN == "" {
+		panic("API_TOKEN is not set")
+	}
+	return API_TOKEN
+}

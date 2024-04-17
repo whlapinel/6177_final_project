@@ -1,4 +1,4 @@
-<h1>Voices</h1><ul>
+<ul id=\"voice-list\">
 <li>
 </li>
 </ul>

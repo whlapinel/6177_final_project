@@ -16,13 +16,18 @@ func getUrl (page int) string {
     return "/get-voices/" + strconv.Itoa(page)
 }
 
-templ VoicesPage(voices *[]models.Voice, page int) {
-    @components.Layout() {
+templ VoicesPage(voices *[]models.Voice, page int, partial bool) {
+    if partial {
         @components.VoiceList(voices, itemsPerPage, page)
-        <div class="flex gap-2">
-            for i := 0; i < getPageCount(len(*voices)); i++ {
-                <a href={templ.SafeURL(getUrl(i+1))}>{strconv.Itoa(i+1)}</a>
-            }
-        </div>
+    } else {
+        @components.Layout() {
+            @components.PageHeading("Voices")
+            @components.VoiceList(voices, itemsPerPage, page)
+            <div class="flex gap-2">
+                for i := 0; i < getPageCount(len(*voices)); i++ {
+                    <button hx-get={getUrl(i+1)} hx-target="#voice-list" hx-swap="outerHTML">{strconv.Itoa(i+1)}</button>
+                }
+            </div>
+        }
     }
 }

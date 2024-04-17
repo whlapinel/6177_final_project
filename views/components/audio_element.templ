@@ -1,0 +1,7 @@
+package components
+
+templ AudioElement(text string, voice string) {
+    <audio controls>
+        <source src={"/test-call?text=" + text + "&voice=" + voice} type="audio/mpeg" />
+    </audio>
+}

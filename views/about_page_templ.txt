@@ -1,0 +1,1 @@
+ <div><p>This is a simple web app written in Go.</p></div>
