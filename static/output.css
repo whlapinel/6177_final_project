@@ -554,6 +554,10 @@ video {
   --tw-contain-style:  ;
 }
 
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
 .flex {
   display: flex;
 }
@@ -589,10 +593,6 @@ video {
 .bg-sky-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(14 165 233 / var(--tw-bg-opacity));
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .p-4 {

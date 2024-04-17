@@ -1,0 +1,29 @@
+package components
+
+import "final_project/models"
+
+type partialVoice struct {
+    ShortName   string
+    DisplayName string
+}
+
+func getVoicesInLanguage(language string, voices *[]models.Voice) []partialVoice {
+    var voicesInLanguage []partialVoice
+    for _, voice := range *voices {
+        if voice.LocaleName == language {
+
+            newVoice := partialVoice{ShortName: voice.ShortName, DisplayName: voice.DisplayName}
+            voicesInLanguage = append(voicesInLanguage, newVoice)
+        }
+    }
+    return voicesInLanguage
+}
+templ SelectVoice (language string, voices *[]models.Voice) {
+                    <label for="voice">Select a voice:</label>
+                <select id="voice" name="voice">
+                    for _, voice := range getVoicesInLanguage(language, voices) {
+                        <option value={voice.ShortName}>{voice.DisplayName}</option>
+                    }
+                </select>
+
+}

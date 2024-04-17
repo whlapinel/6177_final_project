@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -36,12 +37,19 @@ func Run() {
 	r.PathPrefix("/static/").Handler(staticFileHandler)
 	r.HandleFunc("/test-call", testCall)
 	r.HandleFunc("/get-audio", renderAudioElement)
-
+	r.HandleFunc("/select-voice", renderSelectVoice)
 	r.HandleFunc("/get-voices/{page}", renderVoices)
 	r.HandleFunc("/home", renderHome)
 	r.HandleFunc("/", renderHome)
 	r.HandleFunc("/about", renderAbout)
 	http.ListenAndServe(":8080", r)
+}
+
+func renderSelectVoice(w http.ResponseWriter, r *http.Request) {
+	language := r.FormValue("language")
+	fmt.Println("Language: ", language)
+	voices := getVoices()
+	components.SelectVoice(language, voices).Render(r.Context(), w)
 }
 
 func renderAudioElement(w http.ResponseWriter, r *http.Request) {
@@ -56,10 +64,13 @@ func renderAudioElement(w http.ResponseWriter, r *http.Request) {
 func testCall(w http.ResponseWriter, r *http.Request) {
 	voice := r.FormValue("voice")
 	fmt.Println("Voice: ", voice)
-	text := r.FormValue("text")
-	fmt.Println("Text: ", text)
+	rawText := r.FormValue("text")
+	fmt.Println("Text: ", rawText)
+	encodedText := url.QueryEscape(rawText)
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", "http://localhost:8081/api/tts?text="+text+"&voice="+voice, nil)
+	encodedUrl := "http://localhost:8081/api/tts?text=" + encodedText + "&voice=" + voice
+	// encode URL
+	req, err := http.NewRequest("GET", encodedUrl, nil)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -113,7 +124,7 @@ func renderVoices(w http.ResponseWriter, r *http.Request) {
 func fetchVoices() (*[]models.Voice, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "http://localhost:8081/api/get-voices", nil)
-	req.Header.Set("Authorization", os.Getenv("API_TOKEN"))
+	// req.Header.Set("Authorization", os.Getenv("API_TOKEN"))
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
