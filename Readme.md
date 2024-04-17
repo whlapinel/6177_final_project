@@ -4,6 +4,12 @@ endpoint:
 https://eastus.api.cognitive.microsoft.com/
 
 API Key set in .bashrc
+## 4/17/24:
+
+- made a lot of progress
+
+- need to fix issue with text encoding from web form interface. spaces in text input need to be handled properly.
+
 ## 4/14/24:
 
 - installed Tailwind and set up configuration, seems to be working!
