@@ -124,7 +124,7 @@ func renderVoices(w http.ResponseWriter, r *http.Request) {
 func fetchVoices() (*[]models.Voice, error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "http://localhost:8081/api/get-voices", nil)
-	// req.Header.Set("Authorization", os.Getenv("API_TOKEN"))
+	req.Header.Set("Authorization", os.Getenv("API_TOKEN"))
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -134,13 +134,17 @@ func fetchVoices() (*[]models.Voice, error) {
 		fmt.Println(err)
 		return nil, err
 	}
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("response not ok")
+	}
 	defer res.Body.Close()
 	fmt.Println(res)
-	var voices []models.Voice
+	var voices *[]models.Voice
 	if err := json.NewDecoder(res.Body).Decode(&voices); err != nil {
+		fmt.Println("error decoding json response")
 		return nil, err
 	}
-	return &voices, nil
+	return voices, nil
 }
 
 func getVoices() *[]models.Voice {
@@ -156,6 +160,7 @@ func getVoices() *[]models.Voice {
 		fmt.Println(err)
 		return nil
 	}
+	fmt.Println("caching voices")
 	dataCache.Set("voices", voices, 5*time.Minute)
 	return voices
 }

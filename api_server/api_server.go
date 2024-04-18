@@ -7,7 +7,6 @@ import (
 	"final_project/secrets"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 
@@ -20,6 +19,7 @@ func Hello() {
 
 func Run() {
 	r := gin.Default()
+	r.Use(authorizationMiddleware())
 	r.GET("/api/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -27,20 +27,20 @@ func Run() {
 	})
 	r.GET("/api/get-voices", getVoices)
 	r.GET("/api/tts", tts)
-	r.Use(authorizationMiddleware)
 	r.Run(":8081") // listen and serve on
 }
 
-func authorizationMiddleware(c *gin.Context) {
-	fmt.Println("running authorization middleware")
-	if c.GetHeader("Authorization") != secrets.GetApiToken() {
-		c.JSON(401, gin.H{
-			"error": "unauthorized",
-		})
-		c.Abort()
+func authorizationMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println("running authorization middleware")
+		if c.GetHeader("Authorization") != secrets.GetApiToken() {
+			c.JSON(401, gin.H{
+				"error": "unauthorized",
+			})
+			c.Abort()
+		}
+		c.Next()
 	}
-	log.Fatal("authorizationMiddleware")
-	c.Next()
 }
 
 func GetSpeechToken() (*string, error) {

@@ -1,6 +1,0 @@
- <p>Welcome!</p><p>You can use this API to generate text-to-speech audio files</p><p>Note for Professor / TA: You should have access to the API Key provided in the assignment submission.</p><form hx-get=\"/get-audio\" hx-target=\"#audio-element\" class=\"flex flex-col justify-center items-center gap-2\"><div class=\"grid grid-cols-2 gap-2\"><label for=\"text\">Enter the text you want to convert to speech:</label> <input type=\"text\" id=\"text\" name=\"text\" value=\"hello my friend!\"> <label for=\"language\">Select a language:</label> <select id=\"language\" name=\"language\" hx-post=\"
-\">
-<option value=\"
-\">
-</option>
-</select></div><div id=\"audio-element\"></div><button type=\"submit\" class=\"bg-sky-500 text-white p-4 rounded\">Try it out!</button></form>

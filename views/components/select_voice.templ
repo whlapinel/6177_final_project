@@ -19,11 +19,12 @@ func getVoicesInLanguage(language string, voices *[]models.Voice) []partialVoice
     return voicesInLanguage
 }
 templ SelectVoice (language string, voices *[]models.Voice) {
-                    <label for="voice">Select a voice:</label>
-                <select id="voice" name="voice">
-                    for _, voice := range getVoicesInLanguage(language, voices) {
-                        <option value={voice.ShortName}>{voice.DisplayName}</option>
-                    }
-                </select>
-
+    <div id="select-voice">
+    <label for="voice">Select a voice:</label>
+    <select id="voice" name="voice">
+        for _, voice := range getVoicesInLanguage(language, voices) {
+            <option value={voice.ShortName}>{voice.DisplayName}</option>
+        }
+    </select>
+    </div>
 }
