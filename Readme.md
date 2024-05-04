@@ -10,7 +10,7 @@ API Key set in .bashrc
 
 - need to fix issue with text encoding from web form interface. spaces in text input need to be handled properly. (fixed)
 
-- authorization is not working in API server.  For some reason middleware is not even running.  need to understand r.Use(), I'm doing something wrong.
+- authorization is not working in API server.  For some reason middleware is not even running.  need to understand r.Use(), I'm doing something wrong. AH figured it out. I thought it was a callback but I'm supposed to call it myself
 
 ## 4/14/24:
 

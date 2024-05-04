@@ -1,7 +1,14 @@
 package components
 
 templ AudioElement(text string, voice string) {
-    <audio controls>
-        <source src={"/test-call?text=" + text + "&voice=" + voice} type="audio/mpeg" />
-    </audio>
+	<div id="audio-container" class="flex flex-col justify-center items-center">
+		<audio controls>
+			<source src={ "/test-call?text=" + text + "&voice=" + voice } type="audio/mpeg"/>
+		</audio>
+		<button hx-target="#audio-container" hx-swap="outerHTML" hx-get="/try-again" class="bg-sky-500 text-white p-4 rounded">Try Again</button>
+	</div>
+}
+
+templ FetchAudioButton() {
+	<button id="btn-fetch-audio" type="submit" class="bg-sky-500 text-white p-4 rounded">Fetch Audio</button>
 }

@@ -1,59 +1,74 @@
 package views
 
 import (
-    "final_project/views/components"
-    "final_project/models"
+	"final_project/views/components"
+	"final_project/models"
 	"slices"
 )
 
+const defaultLocaleName = "English (United States)"
+
 func getDistinctLocaleNames(voices *[]models.Voice) []string {
-    var usedLocales []string
-    for _, voice := range *voices {
-        if !slices.Contains(usedLocales, voice.LocaleName) {
-            usedLocales = append(usedLocales, voice.LocaleName)
-        }
-    }
-    return usedLocales
+	var usedLocales []string
+	for _, voice := range *voices {
+		if !slices.Contains(usedLocales, voice.LocaleName) {
+			usedLocales = append(usedLocales, voice.LocaleName)
+		}
+	}
+	return usedLocales
 }
 
 templ HomePage(voices *[]models.Voice) {
-    @components.Layout() {
-        @components.PageHeading("Lapinel's Text-to-Speech API")
-        <p>Welcome!</p>
-        <p>You can use this API to generate text-to-speech audio files</p>
-        <p>Calls to the endpoint will return an mp3 file with the text-to-speech conversion.</p>
-        <p>
-        <pre>
-        <code>
-            GET http:&#47;&#47[ip-address]/api/tts?text=[your+text+here]&voice=[voice-name]
-        </code>
-        </pre>
-        </p>
-        <p>You must also include the API key in the header of the request.</p>
-        <p>
-        <pre>
-        <code>
-        "Authorization": "[API_KEY]"
-        </code>
-        </pre>
-        </p>
-        <p>Note for Professor / TA: You should have access to the API Key provided in the assignment submission. You can also use this interface, which calls the same endpoint.</p>
-        <form hx-get="/get-audio" hx-target="#audio-element" class="flex flex-col justify-center items-center gap-2">
-            <div class="grid grid-cols-2 gap-2">
-                <label for="text">Enter the text you want to convert to speech:</label>
-                <input type="text" id="text" name="text" value="This a really great API! Holy cow!"/>
-                <label for="language">Select a language:</label>
-                <select id="language" name="language" hx-post={"/select-voice"} hx-target="#select-voice" hx-swap="outerHTML">
-                        for _, localeName := range getDistinctLocaleNames(voices) {
-                                <option value={localeName}>{localeName}</option>
-                            }
-                </select>
-                <label for="select-voice">Select a voice:</label>
-                <select id="select-voice" disabled><option>Choose a language first</option></select>
-            </div>
-            <div id="audio-element">
-            </div>
-            <button type="submit" class="bg-sky-500 text-white p-4 rounded">Try it out!</button>
-        </form>
-    }
+	@components.Layout() {
+		@components.PageHeading("Lapinel's Text-to-Speech API")
+		<p>Welcome!</p>
+		<p>Use this API to generate text-to-speech audio files.</p>
+		<p>How it works:</p>
+		<ul>
+			<li>Issue a <code>GET</code> request with the following query parameters:</li>
+			<ul>
+				<li><code>text:</code> any text you like!</li>
+				<li><code>voice:</code> refer to the voice list below. Use the string contained within the parenthesis.</li>
+			</ul>
+			<li>The server will return an mp3 file with the text-to-speech conversion.</li>
+		</ul>
+		<p>
+			<pre>
+				<code>
+					GET http:&#47;&#47[ip-address]/api/tts?text=hello+world&voice=en-US-AvaMultilingualNeural
+				</code>
+			</pre>
+		</p>
+		<p>You must also include the API key in the header of the request.</p>
+		<p>
+			<pre>
+				<code>
+					"Authorization": "[API_KEY]"
+				</code>
+			</pre>
+		</p>
+		<p>Note for Professor / TA: You should have access to the API Key provided in the assignment submission. You can also use this interface, which calls the same endpoint.</p>
+		<form hx-get="/get-audio" hx-swap="outerHTML" hx-target="#btn-fetch-audio" class="flex flex-col justify-center items-center gap-2">
+			<div class="grid grid-cols-2 gap-2">
+				<label for="text">Enter the text you want converted to speech:</label>
+				<input type="text" id="text" name="text" value="This is a really great API! Holy cow!"/>
+				<label for="language">Select a language:</label>
+				<select id="language" name="language" hx-post={ "/home" } hx-target="#select-voice" hx-swap="outerHTML">
+					for _, localeName := range getDistinctLocaleNames(voices) {
+						<option
+							value={ localeName }
+							if localeName == defaultLocaleName {
+								selected
+							}
+						>{ localeName }</option>
+					}
+				</select>
+				<label for="voice">Select a voice:</label>
+				<div>
+					@components.SelectVoice("English (United States)", voices, false)
+				</div>
+			</div>
+			@components.FetchAudioButton()
+		</form>
+	}
 }

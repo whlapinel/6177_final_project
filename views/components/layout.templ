@@ -1,17 +1,17 @@
 package components
 
 templ Layout() {
-    <!DOCTYPE html>
-    <html>
-    <link rel="stylesheet" href="/static/output.css"/>
-    @Head("Azure TTS API")
-    <body>
-        @Header()
-        <main class="flex flex-col justify-center items-center gap-2">
-            {children...}
-        </main>
-        <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
-        </body>
-        @Footer()
-    </html>
+	<!DOCTYPE html>
+	<html>
+		<link rel="stylesheet" href="/static/output.css"/>
+		@Head("Azure TTS API")
+		<body>
+			@Header()
+			<main class="flex flex-col justify-center items-center gap-2">
+				{ children... }
+			</main>
+			<script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+		</body>
+		@Footer()
+	</html>
 }

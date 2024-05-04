@@ -37,19 +37,24 @@ func Run() {
 	r.PathPrefix("/static/").Handler(staticFileHandler)
 	r.HandleFunc("/test-call", testCall)
 	r.HandleFunc("/get-audio", renderAudioElement)
-	r.HandleFunc("/select-voice", renderSelectVoice)
-	r.HandleFunc("/get-voices/{page}", renderVoices)
+	r.HandleFunc("/home", renderSelectVoice).Methods("POST")
+	r.HandleFunc("/get-voices", renderVoices)
+	r.HandleFunc("/try-again", renderFetchAudioButton)
 	r.HandleFunc("/home", renderHome)
 	r.HandleFunc("/", renderHome)
 	r.HandleFunc("/about", renderAbout)
 	http.ListenAndServe(":8080", r)
 }
 
+func renderFetchAudioButton(w http.ResponseWriter, r *http.Request) {
+	components.FetchAudioButton().Render(r.Context(), w)
+}
+
 func renderSelectVoice(w http.ResponseWriter, r *http.Request) {
 	language := r.FormValue("language")
 	fmt.Println("Language: ", language)
 	voices := getVoices()
-	components.SelectVoice(language, voices).Render(r.Context(), w)
+	components.SelectVoice(language, voices, false).Render(r.Context(), w)
 }
 
 func renderAudioElement(w http.ResponseWriter, r *http.Request) {
@@ -99,8 +104,14 @@ func renderAbout(w http.ResponseWriter, r *http.Request) {
 
 func renderHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Rendering home page")
+	r.Context()
 	voices := getVoices()
-	views.HomePage(voices).Render(r.Context(), w)
+	if voices != nil {
+		views.HomePage(voices).Render(r.Context(), w)
+	} else {
+		voices = &[]models.Voice{}
+		views.HomePage(voices)
+	}
 }
 
 func renderVoices(w http.ResponseWriter, r *http.Request) {
@@ -161,6 +172,6 @@ func getVoices() *[]models.Voice {
 		return nil
 	}
 	fmt.Println("caching voices")
-	dataCache.Set("voices", voices, 5*time.Minute)
+	dataCache.Set("voices", voices, 24*time.Hour)
 	return voices
 }
