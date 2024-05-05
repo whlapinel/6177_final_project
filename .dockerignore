@@ -28,5 +28,11 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/.air*
+**/*.mp3
+**/*.sh
+**/tailwind.config.js
+**/package-lock.json
+**/package.json
 LICENSE
 README.md
