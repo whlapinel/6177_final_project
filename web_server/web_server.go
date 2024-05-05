@@ -28,13 +28,22 @@ type Person struct {
 
 var dataCache = cache.NewCache()
 
+func ContentTypeWrapper(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.URL.Path, ".css") {
+			w.Header().Set("Content-Type", "text/css")
+		}
+		h.ServeHTTP(w, r)
+	})
+}
+
 func Run() {
 	r := mux.NewRouter()
 	staticFileDirectory := http.Dir("./static/")
 	fmt.Println("staticFileDirectory: ", staticFileDirectory)
 	staticFileHandler := http.StripPrefix("/static/", http.FileServer(staticFileDirectory))
 	fmt.Println("staticFileHandler: ", staticFileHandler)
-	r.PathPrefix("/static/").Handler(staticFileHandler).Methods("GET")
+	r.PathPrefix("/static/").Handler(ContentTypeWrapper(staticFileHandler)).Methods("GET")
 	r.HandleFunc("/test-call", testCall)
 	r.HandleFunc("/get-audio", renderAudioElement)
 	r.HandleFunc("/home", renderSelectVoice).Methods("POST")
