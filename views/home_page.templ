@@ -50,8 +50,8 @@ templ HomePage(voices *[]models.Voice) {
 		<p>Note for Professor / TA: You should have access to the API Key provided in the assignment submission. You can also use this interface, which calls the same endpoint.</p>
 		<form hx-get="/get-audio" hx-swap="outerHTML" hx-target="#btn-fetch-audio" class="flex flex-col justify-center items-center gap-2">
 			<div class="grid grid-cols-2 gap-2">
-				<label for="text">Enter the text you want converted to speech:</label>
-				<input type="text" id="text" name="text" value="This is a really great API! Holy cow!"/>
+				<label for="text" class="block text-sm font-medium leading-6 text-gray-900">Enter the text you want converted to speech:</label>
+				<input class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="you@example.com" type="text" id="text" name="text" value="This is a really great API! Holy cow!"/>
 				<label for="language">Select a language:</label>
 				<select id="language" name="language" hx-post={ "/home" } hx-target="#select-voice" hx-swap="outerHTML">
 					for _, localeName := range getDistinctLocaleNames(voices) {
