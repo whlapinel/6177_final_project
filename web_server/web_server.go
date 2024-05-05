@@ -34,7 +34,7 @@ func Run() {
 	fmt.Println("staticFileDirectory: ", staticFileDirectory)
 	staticFileHandler := http.StripPrefix("/static/", http.FileServer(staticFileDirectory))
 	fmt.Println("staticFileHandler: ", staticFileHandler)
-	r.PathPrefix("/static/").Handler(staticFileHandler)
+	r.PathPrefix("/static/").Handler(staticFileHandler).Methods("GET")
 	r.HandleFunc("/test-call", testCall)
 	r.HandleFunc("/get-audio", renderAudioElement)
 	r.HandleFunc("/home", renderSelectVoice).Methods("POST")
