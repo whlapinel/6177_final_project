@@ -27,7 +27,6 @@ type Person struct {
 }
 
 var dataCache = cache.NewCache()
-var host = os.Getenv("HOST")
 
 func Run() {
 	r := mux.NewRouter()
@@ -44,7 +43,7 @@ func Run() {
 	r.HandleFunc("/home", renderHome)
 	r.HandleFunc("/", renderHome)
 	r.HandleFunc("/about", renderAbout)
-	http.ListenAndServe(host+":8080", r)
+	http.ListenAndServe(":8080", r)
 }
 
 func renderFetchAudioButton(w http.ResponseWriter, r *http.Request) {

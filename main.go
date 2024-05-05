@@ -14,7 +14,6 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		fmt.Println("No .env file found")
 	}
-	fmt.Println("HOST: ", os.Getenv("HOST"))
 	fmt.Println("SPEECH_KEY: ", os.Getenv("SPEECH_KEY"))
 	fmt.Println("API_TOKEN: ", os.Getenv("API_TOKEN"))
 	fmt.Println("SPEECH_REGION: ", os.Getenv("SPEECH_REGION"))

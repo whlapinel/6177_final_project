@@ -13,8 +13,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var host = os.Getenv("HOST")
-
 func Hello() {
 	fmt.Println("hello from api_server")
 }
@@ -29,7 +27,7 @@ func Run() {
 	})
 	r.GET("/api/get-voices", getVoices)
 	r.GET("/api/tts", tts)
-	r.Run(host + ":8081") // listen and serve on
+	r.Run(":8081") // listen and serve on
 }
 
 func authorizationMiddleware() gin.HandlerFunc {
