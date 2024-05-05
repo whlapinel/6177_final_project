@@ -43,7 +43,7 @@ func Run() {
 	r.HandleFunc("/home", renderHome)
 	r.HandleFunc("/", renderHome)
 	r.HandleFunc("/about", renderAbout)
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe("localhost:8080", r)
 }
 
 func renderFetchAudioButton(w http.ResponseWriter, r *http.Request) {

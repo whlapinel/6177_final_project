@@ -27,7 +27,7 @@ func Run() {
 	})
 	r.GET("/api/get-voices", getVoices)
 	r.GET("/api/tts", tts)
-	r.Run(":8081") // listen and serve on
+	r.Run("localhost:8081") // listen and serve on
 }
 
 func authorizationMiddleware() gin.HandlerFunc {
