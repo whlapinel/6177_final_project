@@ -51,7 +51,7 @@ func HomePage(voices *[]models.Voice) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <p>Welcome!</p><p>Use this API to generate text-to-speech audio files.</p><p>How it works:</p><ul><li>Issue a <code>GET</code> request with the following query parameters:</li><ul><li><code>text:</code> any text you like!</li><li><code>voice:</code> refer to the voice list below. Use the string contained within the parenthesis.</li></ul><li>The server will return an mp3 file with the text-to-speech conversion.</li></ul><p><pre><code>GET http:&#47;&#47[ip-address]/api/tts?text=hello+world&voice=en-US-AvaMultilingualNeural</code></pre></p><p>You must also include the API key in the header of the request.</p><p><pre><code>\"Authorization\": \"[API_KEY]\"</code></pre></p><p>Note for Professor / TA: You should have access to the API Key provided in the assignment submission. You can also use this interface, which calls the same endpoint.</p><form hx-get=\"/get-audio\" hx-swap=\"outerHTML\" hx-target=\"#btn-fetch-audio\" class=\"flex flex-col justify-center items-center gap-2\"><div class=\"grid grid-cols-2 gap-2\"><label for=\"text\" class=\"block text-sm font-medium leading-6 text-gray-900\">Enter the text you want converted to speech:</label> <input class=\"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6\" placeholder=\"you@example.com\" type=\"text\" id=\"text\" name=\"text\" value=\"This is a really great API! Holy cow!\"> <label for=\"language\">Select a language:</label> <select id=\"language\" name=\"language\" hx-post=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -64,12 +64,12 @@ func HomePage(voices *[]models.Voice) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-target=\"#select-voice\" hx-swap=\"outerHTML\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for _, localeName := range getDistinctLocaleNames(voices) {
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option value=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -82,17 +82,17 @@ func HomePage(voices *[]models.Voice) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				if localeName == defaultLocaleName {
-					templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" selected")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -105,12 +105,12 @@ func HomePage(voices *[]models.Voice) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</option>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 8)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select> <label for=\"voice\">Select a voice:</label><div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -118,7 +118,7 @@ func HomePage(voices *[]models.Voice) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 9)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -126,7 +126,7 @@ func HomePage(voices *[]models.Voice) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 10)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</form>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
