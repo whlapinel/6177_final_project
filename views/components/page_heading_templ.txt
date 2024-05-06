@@ -1,2 +1,0 @@
-<h2 class=\"text-3xl\">
-</h2>

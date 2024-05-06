@@ -1,2 +1,0 @@
-<header class=\"flex flex-col p-4 gap-2\"><h1 class=\"text-4xl\">
-</h1><nav><ul class=\"flex gap-2 p-2 bg-blue-700 text-zinc-50 rounded\"><li><a href=\"/\">Home</a></li><li><a href=\"/about\">About</a></li></ul></nav></header>

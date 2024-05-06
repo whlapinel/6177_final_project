@@ -1,2 +1,0 @@
-<code class=\"text-green-500 bg-black rounded p-1\">
-</code>

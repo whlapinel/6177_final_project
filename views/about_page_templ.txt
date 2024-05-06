@@ -1,1 +1,0 @@
- <div><p>This is a simple web app written in Go, HTMX and Templ.</p></div>
