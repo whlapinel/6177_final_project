@@ -4,10 +4,10 @@ templ Layout() {
 	<!DOCTYPE html>
 	<html>
 		<link rel="stylesheet" href="/static/output.css"/>
-		@Head("Azure TTS API")
+		@Head("Lapinel's API")
 		<body>
-			@Header()
-			<main class="flex flex-col justify-center items-center gap-2">
+			@Header("Lapinel's API")
+			<main class="flex flex-col justify-center items-center gap-3 px-24 min-h-[80vh]">
 				{ children... }
 			</main>
 			<script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>

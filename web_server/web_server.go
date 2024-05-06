@@ -28,7 +28,6 @@ type Person struct {
 
 var dataCache = cache.NewCache()
 
-
 func Run() {
 	r := mux.NewRouter()
 	staticFileDirectory := http.Dir("./static/")
