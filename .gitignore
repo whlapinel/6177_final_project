@@ -3,3 +3,4 @@ node_modules
 tmp
 .idea
 .env
+*_templ.txt
