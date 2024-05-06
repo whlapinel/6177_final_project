@@ -124,7 +124,7 @@ func HomePage(voices *[]models.Voice) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("refer to the voice list below. Use the string contained within the parenthesis.</li></ul><li>The server will return an mp3 file with the text-to-speech conversion.</li></ul><p class=\"text-2xl\">Example: <pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("refer to the voice list below.</li></ul><li>The server will return an mp3 file with the text-to-speech conversion.</li></ul><p class=\"text-2xl\">Example: <pre>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
